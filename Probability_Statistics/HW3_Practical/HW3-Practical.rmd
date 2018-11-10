@@ -1,0 +1,45 @@
+---
+title: "Practical part of Homework 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Koosha Jaferian 95105454
+
+First of all we generate 10000 random variables with the given normal distribution. Due to the results from part (c) of the problem, by applying the correct function we can construt 10000 random variables with the given exponential distribution.
+
+We will have:
+
+$$ y = -ln(1 - F(x)) $$
+in fact x is an arbitrary random variable from normal distribution and by applying y function we will get a random variable from exponential distribution.
+
+
+
+After doing this we draw the Histogram of the constructed exponential variables. the result will look like this :
+
+```{r echo=FALSE}
+inform <- rnorm(10000)
+inform = -pnorm(inform)
+inform = inform + 1
+inform = log(inform)
+inform = -inform
+library(ggplot2)
+plot <- ggplot(data.frame(inform),aes(x=inform, y = ..count../10000)) + geom_histogram(alpha = 0.5, binwidth = 0.1, color = "gray", fill = "gray",breaks = seq(0 , 5 , 0.1))
+
+plot
+```
+
+Now we draw the histogram of a exponential distribution, constructed directly. The result will look like this:
+
+```{r echo=FALSE}
+inform <- rexp(10000)
+plot <- ggplot(data.frame(inform),aes(x=inform, y = ..count../10000)) + geom_histogram(alpha = 0.5, binwidth = 0.1, color = "gray", fill = "gray",breaks = seq(0 , 5 , 0.1))
+
+plot
+```
+
+
+By comparing 2 histograms we can easily see that they are so simillar. So we can see the usage of formula in part (c). By using it when we have so many variables from a distribution, we can change them to the variables of another distribution.

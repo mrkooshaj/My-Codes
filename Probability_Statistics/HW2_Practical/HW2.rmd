@@ -1,0 +1,124 @@
+---
+title: "Practical Part of Homework 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Koosha Jaferian - 95105454
+
+## Question 1
+
+First of all we generate 1000 samples of exponential distribution and draw it's histogram and probability density funtion. they will look like this :
+
+## Histogram
+
+```{r echo =FALSE}
+
+library(ggplot2)
+
+n = 1000
+landa = 0.1
+
+inform <- rexp(n,landa)
+
+plot <- ggplot(data.frame(inform),aes(x=inform, y = ..count..)) + geom_histogram(alpha = 0.5, binwidth = 1, color = "gray", fill = "gray", breaks = seq(0,100,1))
+
+plot
+```
+
+## Density
+
+```{r echo =FALSE}
+plot <- ggplot(data.frame(inform),aes(x=inform, y = ..count..)) + geom_density()
+
+plot
+```
+
+Now we omit the samples with the value less than 10. then we will draw the Histogram and Probability density again. they will look like this :
+
+##Histogram
+
+```{r include= FALSE}
+subset(inform,inform > 10)
+```
+
+
+```{r echo= FALSE}
+
+
+plot <- ggplot(data = subset(data.frame(inform), inform > 10),aes(x=inform, y = ..count..)) + geom_histogram(alpha = 0.5, binwidth = 1, color = "gray", fill = "gray", breaks = seq(0,100,1))
+
+plot
+```
+
+##Density
+
+```{r echo=FALSE}
+plot <- ggplot(data = subset(data.frame(inform), inform > 10),aes(x=inform, y = ..count..)) + geom_density()
+
+plot
+```
+
+we can easily see that the density function shape is almost the same, the result will show the Memorylessness of the exponential Distribution!
+
+##Question 2
+
+now we generate 1000 samples of geometric distribution with p = 0.01.
+
+Then we divide the samples by 10 and draw their histogram!
+
+```{r echo=FALSE}
+n = 1000
+p = 0.01
+
+inform <- rgeom(n,p)
+
+plot <- ggplot(data.frame(inform),aes(x=inform/10, y = ..count..)) + geom_histogram(alpha = 0.5, binwidth = 1, color = "gray", fill = "gray", breaks = seq(0,100,1))
+
+plot
+```
+
+you can easily see that this shape is very similar to the previous one. the result shows that if p is so small and n is large, the Geometric distribution and Exponentioal Distribution are really close to each other.
+
+##Question 3
+
+Now we are going to simulate 1000 days of the secretary and count the number of calls in each day (8 hours)
+
+After generating the data we will draw the histogram of "number of calls". it looks like this :
+
+```{r echo=FALSE}
+timer = 0
+counter = 0
+while (timer <= 480)
+{
+  input = rexp(1,0.1)
+  timer = timer + input
+  counter = counter + 1
+}
+
+inform = c(counter)
+for (i in 1:999)
+{
+  timer = 0
+  counter = 0
+  while (timer <= 480)
+  {
+    input = rexp(1,0.1)
+    timer = timer + input
+    counter = counter + 1
+  }
+  
+  s = c(counter)
+  inform = c(inform,s)
+}
+
+plot <- ggplot(data.frame(inform),aes(x=inform, y = ..count..)) + geom_histogram(alpha = 0.5, binwidth = 1, color = "gray", fill = "gray", breaks = seq(0,100,1))
+
+plot
+
+```
+
+the shape of the histogram is similar to Poisson Distribution!
